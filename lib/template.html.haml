@@ -1,0 +1,40 @@
+%html
+  %head
+    %title  Mobster Report
+    :css
+      td { nowrap: true;}
+  %body
+    %table{:border=>'2'}
+      %tr
+        %td App name
+        %td Is debuggable
+        %td Obfuscation
+        %td App permission
+        %td App IPC
+        %td Suspicious api call        
+        %td Manifest checks
+        %td Files
+      - issues.each do |i|
+        %tr         
+          %td= i['appname']
+          %td= i['debug']
+          %td= i['obfuscation']
+          %td
+            - i['permission'].each do |a| 
+              %p= a.to_s
+          %td
+            - i['ipc'].each do |a|
+              %p&= a.to_s
+          %td
+            - i['api'].each do |a| 
+              %p= a
+          %td
+            - i['manifest'].each do |a| 
+              %p= a
+          %td= i['files']
+    %p Statistics
+    %p App number tested: #{stat['appnum']}
+    %p App debugged: #{stat['debug']}
+    %p App obfuscated:  #{stat['obfuscated']}
+    %p public ipc: #{stat['ipc']}
+    %p api issues: #{stat['api']}

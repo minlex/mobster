@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require './lib/mobster.rb'
+
+
+if __FILE__ == $0
+
+  options = {}
+
+  parser = OptionParser.new do |opts|
+    opts.banner = "Usage: mobster [options] path"
+    opts.on("-c", "--config FILE", "path to config file") do |v|
+      options[:config] = v 
+    end
+  end
+  
+  parser.parse!
+
+  path = ARGV.pop       
+  if options[:config].nil? or path.nil?
+     puts parser.help
+     exit
+  end  
+     
+  options =  YAML::load(File.open(options[:config]))
+  mob = Mobster.new(options)
+  mob.scann(path)
+  
+  pp Issue.stat
+  
+end
